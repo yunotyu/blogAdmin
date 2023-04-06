@@ -14,7 +14,7 @@ import store from './store'
 import router from './router'
 
 import i18n from './lang' // Internationalization
-import './icons' // icon
+import './icons' // 引入icons文件夹，里面包含svg图片
 import './permission' // permission control
 import './utils/errorLog' // error log
 

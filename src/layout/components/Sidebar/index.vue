@@ -1,5 +1,8 @@
+<!-- sideBar文件交接下的其他组件都是这个页面的子组件 -->
+<!-- 这个是网页的左侧边栏 -->
 <template>
   <div :class="{'has-logo':showLogo}">
+    <!-- 是否显示logo,logo.vue组件 -->
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
