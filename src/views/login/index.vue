@@ -42,6 +42,7 @@
         </span>
       </el-form-item>
 
+      <!-- 显示登录时的加载动画 -->
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
@@ -144,12 +145,16 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 点击登录触发函数
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          // 用于显示登录时的加载动画
           this.loading = true
+          // 调用store里面的user.js里面的login方法，最后是调用api文件夹里面的user.js的login方法
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              // 登录成功，跳转到/
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             })

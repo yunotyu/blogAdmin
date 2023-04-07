@@ -8,6 +8,7 @@ export function login(data) {
   })
 }
 
+// 获取角色信息，需要携带token
 export function getInfo(token) {
   return request({
     url: '/user/info',

@@ -9,10 +9,12 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
+// 导航路由守卫，路由跳转前执行，这里进行token和角色校验
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
 
+  // 获取存储在store的state里面的token
   // determine whether the user has logged in
   const hasToken = getToken()
 
@@ -51,8 +53,8 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
+    // 没有token
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

@@ -10,6 +10,7 @@ const state = {
   roles: []
 }
 
+// mutations共享方法
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -28,14 +29,30 @@ const mutations = {
   }
 }
 
+// store里面的action异步方法
 const actions = {
-  // user login
+  // 登录 user login
+  /* store的action方法可以携带一个context参数，
+  这个属性中包括下面几部分：
+
+context:{
+        state,   等同于store.$state，若在模块中则为局部状态
+        rootState,   等同于store.$state,只存在模块中
+        commit,   等同于store.$commit
+        dispatch,   等同于store.$dispatch
+        getters   等同于store.$getters
+        }
+      下面的{commit}是ES6的变量解构赋值，直接获取
+  */
+  // 参数二是传递过来的用户登录信息
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        // 设置token到store的state变量里
         commit('SET_TOKEN', data.token)
+        // 设置token到cookie
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -44,6 +61,7 @@ const actions = {
     })
   },
 
+  // 获取用户相关的各种信息，如角色，姓名等
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -54,6 +72,7 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
+        // 获取返回的数据
         const { roles, name, avatar, introduction } = data
 
         // roles must be a non-empty array
@@ -61,6 +80,7 @@ const actions = {
           reject('getInfo: roles must be a non-null array!')
         }
 
+        // 将数据设置到store的state的对应变量里
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
