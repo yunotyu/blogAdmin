@@ -2,11 +2,13 @@ import Cookies from 'js-cookie'
 
 const state = {
   sidebar: {
+    // 设置侧边栏是否打开或者隐藏
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
   device: 'desktop',
-  language: Cookies.get('language') || 'en',
+  // language: Cookies.get('language') || 'en',
+  language: 'zh-CN', // 设置语言
   size: Cookies.get('size') || 'medium'
 }
 

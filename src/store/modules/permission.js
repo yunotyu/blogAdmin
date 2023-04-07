@@ -39,14 +39,17 @@ const state = {
   addRoutes: []
 }
 
+// 用于将路由渲染到界面上，用于在下面的generateRoutes()进行用户可访问的路由添加
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
+    // constantRoutes从路由index.js引入，基础路由，所有用户都能访问
     state.routes = constantRoutes.concat(routes)
   }
 }
 
 const actions = {
+  // 这个函数用于获取用户的可访问的路由
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       let accessedRoutes
@@ -55,6 +58,7 @@ const actions = {
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
+      // 设置用户可访问的路由
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })

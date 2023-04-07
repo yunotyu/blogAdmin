@@ -1,17 +1,23 @@
 <template>
+  <!-- 这里的item会从父级的el-menu遍历传入，item就是用户可访问的每个路由 -->
   <div v-if="!item.hidden" class="menu-wrapper">
+    <!-- 无子菜单项 -->
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+      <!-- onlyOneChild是一个自定义属性，在下面的this.onlyOneChild，这里的onOneChild是单个路由对象
+      meta属性包含标题，图标等 -->
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+          <!-- Item.vue组件 具体显示菜单栏的组件 -->
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="generateTitle(onlyOneChild.meta.title)" />
         </el-menu-item>
       </app-link>
     </template>
-
+    <!-- 有子菜单项的情况 -->
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="generateTitle(item.meta.title)" />
       </template>
+      <!-- 子菜单项 -->
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
@@ -58,12 +64,14 @@ export default {
     return {}
   },
   methods: {
+    // 有子菜单项返回false，反之为true
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
           // Temp set(will be used if only has one showing child)
+          // 这里给onlyOneChild赋值
           this.onlyOneChild = item
           return true
         }

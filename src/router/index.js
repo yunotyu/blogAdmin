@@ -37,6 +37,7 @@ import nestedRouter from './modules/nested'
  * constantRoutes
  * a base page that does not have permission requirements
  * all roles can be accessed
+ * 基础路由，所有用户都能访问
  * */
 export const constantRoutes = [
   {
